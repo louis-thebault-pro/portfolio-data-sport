@@ -205,3 +205,14 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Données locales lourdes (ne pas pousser dans GitHub)
+data/
+*.csv
+*.xlsx
+*.parquet
+
+# Résultats temporaires
+results/
+*.log
+*.tmp

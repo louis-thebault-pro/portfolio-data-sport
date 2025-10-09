@@ -111,4 +111,4 @@ Ce portfolio est sous licence [MIT](LICENSE).
 Projet développé par Louis Thébault,
 dans le cadre d’un portfolio de projets en data science appliquée au sport.
 
-🔗 Voir l’ensemble du portfolio : [Portfolio de Louis Thébault](../README.md)
+🔗 Voir l’ensemble du portfolio : [Portfolio de Louis Thébault](../../README.md)

@@ -26,12 +26,12 @@ Chaque projet dispose de son propre **README** décrivant :
 ---
 
 ## 📌 Projets
-- [Analyse de données de performance en course à pied (trail et route)](projects/performance_trail_data/README.md)
+- [Analyse de données de performance en course à pied (trail et route)](projects\performance_trail_data\README.md)
 
 ---
 
 ## 🛠️ Outils & compétences
-- **Langage** : Python 3.13.8  
+- **Langage** : [Python 3.13.8](https://www.python.org/downloads/release/python-3138/)
 - **IDE** : [VS Code](https://code.visualstudio.com/)
 - **Méthodologie** : analyse de données, visualisation, modélisation  
 - Gestion de projets et communication des résultats

@@ -49,7 +49,7 @@ Les opérations dépendront de la phase d’exploration, mais incluent notamment
 
 ## 🛠️ Environnement & outils
 - **IDE** : [VS Code](https://code.visualstudio.com/)
-- **Langage** : Python 3.13.8  
+- **Langage** : [Python 3.13.8](https://www.python.org/downloads/release/python-3138/)  
 - **Librairies principales** :
   - `pandas` — manipulation et nettoyage des données
   - `numpy` — calculs scientifiques
@@ -111,4 +111,4 @@ Ce portfolio est sous licence [MIT](LICENSE).
 Projet développé par Louis Thébault,
 dans le cadre d’un portfolio de projets en data science appliquée au sport.
 
-🔗 Voir l’ensemble du portfolio : [Portfolio de Louis Thébault](C:\Users\louis\Qsync\Documents\Travail\02-Portfolio\portfolio-data-sport\README.md)
+🔗 Voir l’ensemble du portfolio : [Portfolio de Louis Thébault](README.md)

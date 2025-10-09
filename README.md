@@ -26,13 +26,13 @@ Chaque projet dispose de son propre **README** décrivant :
 ---
 
 ## 📌 Projets
-- [Analyse de données de performance en trail](projects/performance_trail_data/README.md)
+- [Analyse de données de performance en course à pied (trail et route)](projects/performance_trail_data/README.md)
 
 ---
 
 ## 🛠️ Outils & compétences
-- **Python** : 
-- **IDE** : [Spyder](https://www.spyder-ide.org/)  
+- **Langage** : Python 3.13.8  
+- **IDE** : [VS Code](https://code.visualstudio.com/)
 - **Méthodologie** : analyse de données, visualisation, modélisation  
 - Gestion de projets et communication des résultats
 

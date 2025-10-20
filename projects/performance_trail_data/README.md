@@ -1,12 +1,27 @@
-# 🏅 Analyse de la performance sportive en course à pied (trail et route)
+# Analyse de la performance sportive en course à pied (trail et route)
 
-## 🎯 Objectif du projet
+## Objectif du projet
 Ce projet vise à comprendre et prédire la performance en course à pied à partir de données d’activités sportives et physiologiques.
 Le pipeline de données repose sur cinq grandes étapes : **Sources → Données brutes → Opérations → Informations → Actions**.
 La finalité de ce projet sera la construction d'un outil capable d’expliquer la performance passée, d’évaluer la forme actuelle et de prédire les adaptations futures à l’entraînement.
 
 ---
-## 📊 Pipeline de données
+
+## Méthodologie
+
+Le développement de ce projet suit une approche incrémentale et exploratoire :
+1. **Extraction et exploration initiale** des fichiers `.FIT` : structure, nettoyage, premières corrélations
+2. **Analyse d’une activité unique** : mise en relation des données (FC, allure, dénivelé, etc.)
+3. **Analyse multi-activités** : analyse de charge, comparaison des séances, identification de tendances
+4. **Croisement avec les données quotidiennes** : sommeil, stress, nutrition...
+5. **Modélisation prédictive** : forme, performance, risque de blessure
+6. **Visualisation** : rapports, dashboards, graphiques de suivi
+
+---
+
+## Pipeline de données
+
+Attention, dans ce projet les données brutes ne sont pas versionnées (dossier `data/` ignoré par `.gitignore`). Un échantillon anonymisé ou réduit est disponible dans `data_sample/` pour reproduire les analyses.
 
 ### 1. Sources de données
 | Type                                | Description                                                 | Exemple                       |
@@ -14,6 +29,8 @@ La finalité de ce projet sera la construction d'un outil capable d’expliquer 
 | **Montre & applications**           | Données issues de plateformes comme Garmin, Coros ou Strava | Fichiers `.FIT`, `.TCX`, API  |
 | **Journal de bord / Questionnaire** | Données subjectives renseignées manuellement                | Fichier Excel / Google Sheet  |
 | **Tests de laboratoire**            | Mesures physiologiques ponctuelles                          | VO₂max, FCmax, SV1, SV2, etc. |
+
+
 
 ### 2. Données brutes collectées
 | Catégorie                               | Variables principales                                                                                                                                                                                                                                      |
@@ -47,9 +64,19 @@ Les opérations dépendront de la phase d’exploration, mais incluent notamment
 
 ---
 
-## 🛠️ Environnement & outils
+## Résultats (à venir)
+
+Les premiers résultats attendus :
+- Analyse de la relation entre allure, FC, dénivelé et puissance
+- Visualisation de la progression et dérive cardiaque
+- Estimation des zones de charge optimales
+- Création d’un profil de coureur personnalisé
+
+---
+
+## Environnement & outils
 - **IDE** : [VS Code](https://code.visualstudio.com/)
-- **Langage** : [Python 3.13.8](https://www.python.org/downloads/release/python-3138/)  
+- **Langage** : [Python 3.13.8](https://www.python.org/downloads/release/python-3138/)
 - **Librairies principales** :
   - `pandas` — manipulation et nettoyage des données
   - `numpy` — calculs scientifiques
@@ -57,24 +84,9 @@ Les opérations dépendront de la phase d’exploration, mais incluent notamment
   - `scikit-learn` — modélisation et analyse statistique
   - `fitparse` — lecture de fichiers `.FIT` (données Garmin/Coros)
 
-⚠️ Les données brutes ne sont **pas versionnées** (dossier `data/` ignoré par `.gitignore`).  
-Un **échantillon anonymisé ou réduit** est disponible dans `data_sample/` pour reproduire les analyses.
-
 ---
 
-## 🧪 Méthodologie
-
-Le développement suit une approche incrémentale et exploratoire :
-1. **Extraction et exploration initiale** des fichiers `.FIT` : structure, nettoyage, premières corrélations
-2. **Analyse d’une activité unique** : mise en relation des données (FC, allure, dénivelé, etc.)
-3. **Analyse multi-activités** : analyse de charge, comparaison des séances, identification de tendances
-4. **Croisement avec les données quotidiennes** : sommeil, stress, nutrition...
-5. **Modélisation prédictive** : forme, performance, risque de blessure
-6. **Visualisation** : rapports, dashboards, graphiques de suivi
-
----
-
-## 📂 Structure du projet
+## Structure du projet
 
 ```bash
 portfolio/
@@ -91,22 +103,12 @@ portfolio/
 
 ---
 
-## 📈 Résultats (à venir)
-
-Les premiers résultats attendus :
-- Analyse de la relation entre allure, FC, dénivelé et puissance
-- Visualisation de la progression et dérive cardiaque
-- Estimation des zones de charge optimales
-- Création d’un profil de coureur personnalisé
-
----
-
-## 📄 Licence
+## Licence
 Ce portfolio est sous licence [MIT](LICENSE).
 
 ---
 
-## 👤 Auteur
+## Auteur
 
 Projet développé par Louis Thébault,
 dans le cadre d’un portfolio de projets en data science appliquée au sport.

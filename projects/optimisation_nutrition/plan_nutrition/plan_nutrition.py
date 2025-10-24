@@ -1,12 +1,13 @@
 """
 Module définissant la classe PlanNutrition.
 
-Les attributs de cette classe sont :
-- une personne
-- les activités hebdomadaires de la personne sous forme d'une liste d'activités
+Attributs de la classe :
+- personne --> type Personne
+- activités hebdomadaires --> liste d'activités, chacunes du type Activité
 
-Les méthodes liées à la classe sont :
-- calcul_depense() qui permet de calculer la dépense hebdomadaire d'une personne
+Méthodes de la classe :
+- __init__() --> initialisation de la classe
+- calcul_depense() --> calcul de la dépense énergétique hebdomadaire
 
 """
 

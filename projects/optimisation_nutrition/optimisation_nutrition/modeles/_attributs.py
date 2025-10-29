@@ -19,13 +19,13 @@ class Sexe(StrEnum):
     NON_RENSEIGNE = "non renseigné"
 
 
-class Génétique(StrEnum):
+class Genetique(StrEnum):
     NORMALE = "normale"
     RAPIDE = "rapide"
     LENTE = "lente"
 
 
-class RégimeAlimentaire(StrEnum):
+class RegimeAlimentaire(StrEnum):
     OMNIVORE = "omnivore"
     PESCO_VEGETARIEN = "pesco-végétarien"
     VEGETARIEN = "végétarien"
@@ -38,7 +38,7 @@ class ObjectifAlimentaire(StrEnum):
     PERTE_POIDS = "perte de poids"
 
 
-class TypeActivité(StrEnum):
+class TypeActivite(StrEnum):
     ENDURANCE = "endurance"
     FORCE = "force"
     INTERMITTENT = "intermittent"

@@ -1,0 +1,15 @@
+[project]
+name = "optimisation-nutrition"
+version = "0.1.0"
+description = "Projet d'analyse nutritionnelle et de recommandations suivant le profil de la personne et ses activités"
+readme = "README.md"
+requires-python = ">=3.13"
+authors = [{ name = "Louis Thébault"}]
+dependencies = ["pydantic>=2.12",]
+
+[tool.setuptools.packages.find]
+where = ["optimisation_nutrition"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

@@ -14,17 +14,21 @@ Méthodes :
 
 from pydantic import BaseModel, Field
 
-from ._attributs import TypeActivité
+from ._attributs import TypeActivite
 
 
-class Activité(BaseModel):
-    description: str = Field(..., title="Description de l'activité")
-    type: TypeActivité = Field(
-        TypeActivité.AUTRE,
+class Activite(BaseModel):
+    description: str = Field(
+        default="Activité diverse",
+        description="Description de l'activité (Défaut : Activité diverse)",
+        min_length=3,
+    )
+    type: TypeActivite = Field(
+        default=TypeActivite.AUTRE,
         description="Type de l'activité à choisir entre endurance, force, etc. (Par défaut : 'autre')",
     )
-    duree: float = Field(
-        ..., gt=0, description="Durée de l'activité à renseigner en heures (>0)"
+    duree: int = Field(
+        ..., gt=0, description="Durée de l'activité à renseigner en minutes (>0)"
     )
     met: float = Field(
         ...,
@@ -38,7 +42,7 @@ class Activité(BaseModel):
         - Autres contraintes possibles : ge (greater or equal), le, lt, max_length, regex.
     """
 
-    class Config:
+    class ConfigDict:
         """Modification du comportement par défaut de Pydantic"""
 
         use_enum_values = True  # Utilisation de la valeur de l'énumération ("endurance" plutôt que TypeActivité.ENDURANCE)
@@ -46,12 +50,14 @@ class Activité(BaseModel):
             True  # Relance une validation lors de la modification d'un attribut
         )
 
+    def __str__(self):
+        return (
+            f"{self.description} ({self.type}) - {self.duree/60:.1f}h - {self.met} METs"
+        )
+
     def calcul_depense(self) -> float:
         """
         Calcule la dépense énergétique liée à l'activité sans prendre en compte le poids.
         Formule : dépense = MET * durée
         """
-        return self.met * self.duree
-
-    def __str__(self):
-        return f"{self.description} ({self.type}) - {self.duree:.1f}h - {self.met} METs"
+        return self.met * (self.duree / 60)

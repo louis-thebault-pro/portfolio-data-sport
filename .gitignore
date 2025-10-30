@@ -1,12 +1,44 @@
-# Python
+# Environnement Python
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
 *.so
 
-# Virtual environments
+# Fichiers de build
+*.egg-info/
+.eggs/
+build/
+dist/
+wheels/
+pip-wheel-metadata/
+
+# Tests et cache
+.pytest_cache/
+.tox/
+.nox/
+.coverage
+coverage.xml
+htmlcov/
+
+# Environnement virtuel
 .venv/
-env/
 venv/
+env/
+ENV/
+
+# Streamlit et logs
+.streamlit/
+*.log
+logs/
+tmp/
+
+# IDE, OS et fichiers système
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
 
 # Jupyter
 .ipynb_checkpoints
@@ -14,10 +46,3 @@ venv/
 # Data (grandes données non versionnées)
 projects/*/data/
 projects/*/resultats/
-
-# VS Code
-.vscode/
-
-# System files
-.DS_Store
-Thumbs.db

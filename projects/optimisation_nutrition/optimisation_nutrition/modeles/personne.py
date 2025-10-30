@@ -13,7 +13,7 @@ Les méthodes de la classe sont :
 
 from pydantic import BaseModel, Field
 
-from ._attributs import Genetique, ObjectifAlimentaire, RegimeAlimentaire, Sexe
+from .attributs import Genetique, ObjectifAlimentaire, RegimeAlimentaire, Sexe
 
 
 class Personne(BaseModel):

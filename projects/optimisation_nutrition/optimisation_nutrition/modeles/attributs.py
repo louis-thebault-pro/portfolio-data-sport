@@ -14,8 +14,8 @@ from enum import StrEnum
 
 
 class Sexe(StrEnum):
-    HOMME = "Homme"
     FEMME = "Femme"
+    HOMME = "Homme"
     NON_RENSEIGNE = "Non renseigné"
 
 

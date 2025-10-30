@@ -1,17 +1,30 @@
 """
-Paquet regroupant les modules permettant de modéliser les différents objets utilisés par le programme (Une personne, ses activités et ses besoins nutritionnels).
+Paquet regroupant les modules modélisant les différents objets utilisés par le programme
+(personne, activité et nutrition) et les enums partagées (attributs utiles pour les modèles).
 
 Structure du paquet :
 modeles/
-│
 ├── __init__.py
 ├── personne.py (Classe Personne)
 ├── activite.py (Classe Activité)
 ├── nutrition.py (Classe Nutrition)
-└── _attributs.py   (enums utilisées dans les classes Personne et Activité)*
-
+└── attributs.py   (enums utilisées dans les classes Personne et Activité)
 """
 
+from .attributs import (
+    ObjectifAlimentaire,
+    RegimeAlimentaire,
+    Sexe,
+    TypeActivite,
+)
 from .nutrition import Activite, Nutrition, Personne
 
-__all__ = ["Activite", "Personne", "Nutrition"]
+__all__ = [
+    "Activite",
+    "Personne",
+    "Nutrition",
+    "Sexe",
+    "RegimeAlimentaire",
+    "ObjectifAlimentaire",
+    "TypeActivite",
+]

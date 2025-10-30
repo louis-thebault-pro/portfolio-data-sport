@@ -14,7 +14,7 @@ Méthodes :
 
 from pydantic import BaseModel, Field
 
-from ._attributs import TypeActivite
+from .attributs import TypeActivite
 
 
 class Activite(BaseModel):

@@ -5,11 +5,11 @@ description = "Projet d'analyse nutritionnelle et de recommandations suivant le 
 readme = "README.md"
 requires-python = ">=3.13"
 authors = [{ name = "Louis Thébault"}]
-dependencies = ["pydantic>=2.12",]
+dependencies = ["pydantic>=2.12","streamlit>=1.50"]
 
-[tool.setuptools.packages.find]
-where = ["optimisation_nutrition"]
+[build-system]
+requires = ["setuptools>=80.9","wheel>=0.45"]
+build-backend = "setuptools.build_meta"
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
+[tool.setuptools]
+packages = ["optimisation_nutrition"]

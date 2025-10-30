@@ -14,34 +14,34 @@ from enum import StrEnum
 
 
 class Sexe(StrEnum):
-    HOMME = "homme"
-    FEMME = "femme"
-    NON_RENSEIGNE = "non renseigné"
+    HOMME = "Homme"
+    FEMME = "Femme"
+    NON_RENSEIGNE = "Non renseigné"
 
 
 class Genetique(StrEnum):
-    NORMALE = "normale"
-    RAPIDE = "rapide"
-    LENTE = "lente"
+    NORMALE = "Normale"
+    RAPIDE = "Rapide"
+    LENTE = "Lente"
 
 
 class RegimeAlimentaire(StrEnum):
-    OMNIVORE = "omnivore"
-    PESCO_VEGETARIEN = "pesco-végétarien"
-    VEGETARIEN = "végétarien"
-    VEGETALIEN = "végétalien"
+    OMNIVORE = "Omnivore"
+    PESCO_VEGETARIEN = "Pesco-végétarien"
+    VEGETARIEN = "Végétarien"
+    VEGETALIEN = "Végétalien"
 
 
 class ObjectifAlimentaire(StrEnum):
-    MAINTIEN = "maintien"
-    PRISE_MASSE = "prise de masse"
-    PERTE_POIDS = "perte de poids"
+    MAINTIEN = "Maintien du poids"
+    PRISE_MASSE = "Prise de masse"
+    PERTE_POIDS = "Perte de poids"
 
 
 class TypeActivite(StrEnum):
-    ENDURANCE = "endurance"
-    FORCE = "force"
-    INTERMITTENT = "intermittent"
-    COMBAT = "combat"
-    AGILITE = "agilité"
-    AUTRE = "autre"
+    ENDURANCE = "Endurance"
+    FORCE = "Force"
+    INTERMITTENT = "Intermittent"
+    COMBAT = "Combat"
+    AGILITE = "Agilité"
+    AUTRE = "Autre"

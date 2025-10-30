@@ -49,6 +49,14 @@ class Personne(BaseModel):
         gt=0,
         lt=280,
     )
+    regime: RegimeAlimentaire = Field(
+        default=RegimeAlimentaire.OMNIVORE,
+        description="Régime alimentaire de la personne, defini par la classe RégimeAlimentaire (Par défaut : OMNIVORE)",
+    )
+    objectif: ObjectifAlimentaire = Field(
+        default=ObjectifAlimentaire.MAINTIEN,
+        description="Objectif alimentaire de la personne, défini par la classe ObjectifAlimentaire (Par défaut : MAINTIEN)",
+    )
     temperature: float = Field(
         default=36.6,
         description="Température corporelle de la personne (>22 et <50) en °C (Par défaut : 36,6°C)",
@@ -59,14 +67,6 @@ class Personne(BaseModel):
         Genetique.NORMALE,
         description="Type de génétique de la personne, défini par une valeur de la classe Génétique (Par défaut : NORMALE)",
     )
-    regime: RegimeAlimentaire = Field(
-        default=RegimeAlimentaire.OMNIVORE,
-        description="Régime alimentaire de la personne, defini par la classe RégimeAlimentaire (Par défaut : OMNIVORE)",
-    )
-    objectif: ObjectifAlimentaire = Field(
-        default=ObjectifAlimentaire.MAINTIEN,
-        description="Objectif alimentaire de la personne, défini par la classe ObjectifAlimentaire (Par défaut : MAINTIEN)",
-    )
     mb: int = 0
 
     class ConfigDict:
@@ -74,7 +74,7 @@ class Personne(BaseModel):
         validate_assignment = True
 
     def __str__(self):
-        return f"{self.prenom} {self.nom}\n {"" if self.sexe == "non renseigné" else self.sexe}, {self.age} ans\n {self.taille/100} m, {self.poids} kg"
+        return f"{self.prenom} {self.nom}\n {"" if self.sexe == "Non renseigné" else self.sexe + ", "}{self.age} ans\n {self.taille/100} m, {self.poids} kg"
 
     def metabolisme_base(self):
         """

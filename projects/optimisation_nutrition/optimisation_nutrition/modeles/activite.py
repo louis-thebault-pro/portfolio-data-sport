@@ -28,10 +28,10 @@ class Activite(BaseModel):
         description="Type de l'activité à choisir entre endurance, force, etc. (Par défaut : 'autre')",
     )
     duree: int = Field(
-        ..., gt=0, description="Durée de l'activité à renseigner en minutes (>0)"
+        default=0, gt=0, description="Durée de l'activité à renseigner en minutes (>0)"
     )
     met: float = Field(
-        ...,
+        default=0,
         gt=0,
         description="Valeur MET de l'activité issue des tables de données (>0)",
     )

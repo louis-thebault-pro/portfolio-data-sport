@@ -26,7 +26,7 @@ class Nutrition(BaseModel):
         default=[],
         description="Liste d'activités où chacune est définie selon la classe Activité (Par défaut : [])",
     )
-    besoin_hebdo: float = 0
+    besoin_hebdo: int = 0
 
     class ConfigDict:
         use_enum_values = True
@@ -50,12 +50,12 @@ class Nutrition(BaseModel):
                     else:
                         print(f"{activite} n'est pas une activité")
             self.besoin_hebdo = depense
-            return depense
+            return int(depense)
         else:
             return self.besoin_hebdo
 
     def besoins_quotidiens(self):
-        return (
+        return int(
             self.besoin_hebdo / 7
             if self.besoin_hebdo != 0
             else self.besoins_hebdomadaires() / 7

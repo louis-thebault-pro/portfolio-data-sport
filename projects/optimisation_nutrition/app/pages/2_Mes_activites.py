@@ -1,6 +1,8 @@
 import streamlit as st
 
-from optimisation_nutrition import Activite, TypeActivite
+from optimisation_nutrition import Activite
+from optimisation_nutrition.modeles.attributs import TypeActivite
+from optimisation_nutrition.modeles.utils import valeurs_enum
 
 # Initialisation de la page
 
@@ -14,9 +16,9 @@ if "erreur_activite" not in st.session_state:
     st.session_state.erreur_activite = None
 
 
-TYPES_ACTIVITES = {}
-for type_activite in TypeActivite:
-    TYPES_ACTIVITES[type_activite.value] = ["Type de type 1", "Type de type 2"]
+TYPES_ACTIVITES = {
+    v: ["Type de type 1", "Type de type 2"] for v in valeurs_enum(TypeActivite)
+}
 
 
 # Définition des fonctions nécessaires pour le fonctionnement de la page
@@ -56,8 +58,13 @@ def afficher_activites():
     if st.session_state.activites:
         for i, activite in enumerate(st.session_state.activites):
             with st.container():
+                type_str = (
+                    activite.type.value
+                    if hasattr(activite.type, "value")
+                    else str(activite.type)
+                )
                 st.write(
-                    f"Activité {i+1} : {activite.description} ({activite.type}), {activite.duree} minutes"
+                    f"Activité {i+1} : {activite.description} ({type_str}), {activite.duree} minutes"
                 )
                 st.button(
                     "Supprimer",
@@ -98,8 +105,9 @@ def form_ajout_activite():
             with col4:
                 st.number_input(
                     "Durée (minutes)",
-                    min_value=0,
+                    min_value=1,
                     step=1,
+                    value=30,
                     key="duree",
                 )
             with col5:

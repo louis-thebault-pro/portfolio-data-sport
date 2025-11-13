@@ -1,12 +1,13 @@
 import streamlit as st
 from pydantic import ValidationError
 
-from optimisation_nutrition import (
+from optimisation_nutrition import Personne
+from optimisation_nutrition.modeles.attributs import (
     ObjectifAlimentaire,
-    Personne,
     RegimeAlimentaire,
     Sexe,
 )
+from optimisation_nutrition.modeles.utils import valeurs_enum
 
 # Initialisation de la page
 
@@ -83,12 +84,24 @@ def _champs_par_defaut(personne, options_sexe, options_regime, options_objectif)
         {
             "prenom": personne.prenom,
             "nom": personne.nom,
-            "sexe": options_sexe.index(personne.sexe),
+            "sexe": options_sexe.index(
+                personne.sexe.value
+                if hasattr(personne.sexe, "value")
+                else personne.sexe
+            ),
             "age": personne.age,
             "taille": personne.taille,
             "poids": personne.poids,
-            "regime": options_regime.index(personne.regime),
-            "objectif": options_objectif.index(personne.objectif),
+            "regime": options_regime.index(
+                personne.regime.value
+                if hasattr(personne.regime, "value")
+                else personne.regime
+            ),
+            "objectif": options_objectif.index(
+                personne.objectif.value
+                if hasattr(personne.objectif, "value")
+                else personne.objectif
+            ),
         }
         if personne
         else {
@@ -108,9 +121,9 @@ def form_profil(personne):
     """Fonction affichant le formulaire permettant à l'utilisateur de rentrer et valider ses données personnelles"""
 
     # Récupération des données possibles pour Sexe, Régime et Objectif
-    options_sexe = [s.value for s in Sexe]
-    options_regime = [r.value for r in RegimeAlimentaire]
-    options_objectif = [o.value for o in ObjectifAlimentaire]
+    options_sexe = valeurs_enum(Sexe)
+    options_regime = valeurs_enum(RegimeAlimentaire)
+    options_objectif = valeurs_enum(ObjectifAlimentaire)
 
     # Récupération des champs par défaut
     defaut = _champs_par_defaut(
@@ -182,15 +195,21 @@ def afficher_profil(personne):
         col1, col2 = st.columns(2)
         with col1:
             st.write(f"**Prénom:** {personne.prenom}")
-            st.write(f"**Sexe:** {personne.sexe}")
+            st.write(
+                f"**Sexe:** {personne.sexe.value if hasattr(personne.sexe, 'value') else personne.sexe}"
+            )
             st.write(f"**Taille:** {personne.taille/100:.2f} m")
-            st.write(f"**Régime alimentaire:** {personne.regime}")
+            st.write(
+                f"**Régime alimentaire:** {personne.regime.value if hasattr(personne.regime, 'value') else personne.regime}"
+            )
 
         with col2:
             st.write(f"**Nom:** {personne.nom}")
             st.write(f"**Âge:** {personne.age} ans")
             st.write(f"**Poids:** {personne.poids:.1f} kg")
-            st.write(f"**Objectif:** {personne.objectif}")
+            st.write(
+                f"**Objectif:** {personne.objectif.value if hasattr(personne.objectif, 'value') else personne.objectif}"
+            )
 
         st.button("Modifier mes infos", on_click=_modifier_personne)
 

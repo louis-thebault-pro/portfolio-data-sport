@@ -12,25 +12,31 @@ def main():
     louis = Personne(
         prenom="Louis",
         nom="Thébault",
-        sexe="homme",
+        sexe="Homme",
         poids=70,
         taille=178,
-        regime="pesco-végétarien",
+        regime="Pesco-végétarien",
     )
     print(louis)
 
     nutrition = Nutrition(personne=louis)
     nutrition.ajouter_activite(
-        Activite(description="Footing", type="endurance", duree=45, met=9.8)
+        Activite(description="Footing", type="Endurance", duree=45, met=10)
     )
     nutrition.ajouter_activite(
-        Activite(description="Musculation", type="force", duree=58, met=6)
+        Activite(description="Footing", type="Endurance", duree=30, met=5)
+    )
+    nutrition.ajouter_activite(
+        Activite(description="Musculation", type="Force", duree=58, met=6)
     )
 
+    i = 1
     for activite in nutrition.activites:
-        print(activite)
+        print(f"Activité {i} : {activite}")
+        i += 1
 
     print(nutrition)
+    print(nutrition.recommandations_personne())
 
 
 if __name__ == "__main__":

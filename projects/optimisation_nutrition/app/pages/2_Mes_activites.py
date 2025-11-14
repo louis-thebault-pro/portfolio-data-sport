@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import streamlit as st
 
 from optimisation_nutrition import Activite
@@ -17,7 +18,8 @@ if "erreur_activite" not in st.session_state:
 
 
 TYPES_ACTIVITES = {
-    v: ["Type de type 1", "Type de type 2"] for v in valeurs_enum(TypeActivite)
+    valeurs_enum(TypeActivite)[i]: ["Type de type 1", "Type de type 2"]
+    for i in range(1, len(valeurs_enum(TypeActivite)))
 }
 
 
@@ -46,7 +48,6 @@ def _valider_activite():
     st.session_state.activites.append(activite)
     st.session_state.ajout_activite = False
     st.session_state.erreur_activite = None
-    st.success("Activité ajoutée avec succès")
 
 
 def _annuler_ajout():

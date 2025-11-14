@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
 import streamlit as st
 from pydantic import ValidationError
 
 from optimisation_nutrition import Personne
+from optimisation_nutrition.donnees import lire_json
 from optimisation_nutrition.modeles.attributs import (
     ObjectifAlimentaire,
     RegimeAlimentaire,
@@ -22,12 +24,10 @@ if "niveau_activite" not in st.session_state:
 if "mode_edition_niveau_activite" not in st.session_state:
     st.session_state.mode_edition_niveau_activite = True
 
-NIVEAU_ACTIVITE = {
-    1: " Très sédentaire *(télétravail, très peu de déplacements ou de marche au quotidien)*",
-    2: " Légèrement actif *(travail de bureau, marche quotidienne et/ou petits trajets à vélo)*",
-    3: " Modérément actif *(travail debout, déplacements réguliers)*",
-    4: " Très actif *(travail physique, port de charges lourdes, nombreux déplacements)*",
-}
+NAP = lire_json("optimisation_nutrition/donnees/NAP.JSON")
+NIVEAU_ACTIVITE = {}
+for cle in NAP:
+    NIVEAU_ACTIVITE[NAP[cle]["nap"]] = NAP[cle]["description"]
 
 
 # Définition des fonctions nécessaires pour le fonctionnement de la page
@@ -46,6 +46,7 @@ def _enregistrer_personne():
             taille=st.session_state.get("taille"),
             regime=st.session_state.get("regime"),
             objectif=st.session_state.get("objectif"),
+            nap=st.session_state.get("nap"),
         )
         # Si la personne est bien créée, enregistrement du profil
         st.session_state.personne = personne
@@ -72,14 +73,9 @@ def _passer_mode_profil():
     st.session_state.erreur_profil = None
 
 
-def _modifier_niveau_activite():
-    st.session_state.mode_edition_niveau_activite = (
-        not st.session_state.mode_edition_niveau_activite
-    )
-
-
 def _champs_par_defaut(personne, options_sexe, options_regime, options_objectif):
     """Fonction permettant de créer ou récupérer des valeurs par défaut pour les champs du formulaire"""
+    cles_nap = list(NIVEAU_ACTIVITE.keys())
     return (
         {
             "prenom": personne.prenom,
@@ -102,6 +98,7 @@ def _champs_par_defaut(personne, options_sexe, options_regime, options_objectif)
                 if hasattr(personne.objectif, "value")
                 else personne.objectif
             ),
+            "nap": cles_nap.index(personne.nap),
         }
         if personne
         else {
@@ -113,6 +110,7 @@ def _champs_par_defaut(personne, options_sexe, options_regime, options_objectif)
             "poids": 65.0,
             "regime": None,
             "objectif": None,
+            "nap": 0,
         }
     )
 
@@ -170,17 +168,29 @@ def form_profil(personne):
                 key="poids",
             )
 
-        st.selectbox(
-            "Régime alimentaire",
-            options=options_regime,
-            index=defaut["regime"],
-            key="regime",
-        )
-        st.selectbox(
-            "Objectif personnel",
-            options=options_objectif,
-            index=defaut["objectif"],
-            key="objectif",
+        col7, col8 = st.columns(2)
+        with col7:
+            st.selectbox(
+                "Régime alimentaire",
+                options=options_regime,
+                index=defaut["regime"],
+                key="regime",
+            )
+        with col8:
+            st.selectbox(
+                "Objectif personnel",
+                options=options_objectif,
+                index=defaut["objectif"],
+                key="objectif",
+            )
+
+        st.radio(
+            label="Niveau d'activité au quotidien (hors activités sportives) :",
+            index=defaut["nap"],
+            options=NIVEAU_ACTIVITE.keys(),
+            format_func=lambda x: NIVEAU_ACTIVITE[x],
+            horizontal=False,
+            key="nap",
         )
 
         col1, col2, col3 = st.columns(3)
@@ -210,32 +220,15 @@ def afficher_profil(personne):
             st.write(
                 f"**Objectif:** {personne.objectif.value if hasattr(personne.objectif, 'value') else personne.objectif}"
             )
+        st.write(f"**Niveau d'activité:** {NIVEAU_ACTIVITE.get(personne.nap)}")
 
         st.button("Modifier mes infos", on_click=_modifier_personne)
-
-
-def form_niveau_activite():
-    niveau = st.radio(
-        "À quel point considérez-vous votre vie quotidienne active (sans compter vos activités sportives) ?",
-        options=[1, 2, 3, 4],
-        format_func=lambda x: NIVEAU_ACTIVITE[x],
-        horizontal=False,
-    )
-    st.session_state.niveau_activite = niveau
-    st.button("Valider", on_click=_modifier_niveau_activite)
-
-
-def afficher_niveau_activite():
-    with st.container():
-        st.write(NIVEAU_ACTIVITE.get(st.session_state.niveau_activite))
-        st.button("Modifier", on_click=_modifier_niveau_activite)
 
 
 # Ecriture de la page
 
 st.title("Mon profil")
 
-st.markdown("#### Informations personnelles")
 personne = st.session_state.personne
 if st.session_state.mode_edition_profil or not personne:
     # On affiche le formulaire de saisie des informations personnelles
@@ -243,9 +236,3 @@ if st.session_state.mode_edition_profil or not personne:
 else:
     # On affiche le profil
     afficher_profil(personne)
-
-st.markdown("#### Niveau d'activité (hors sport)")
-if st.session_state.mode_edition_niveau_activite:
-    form_niveau_activite()
-else:
-    afficher_niveau_activite()

@@ -12,9 +12,10 @@ Méthodes :
 
 """
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from .attributs import TypeActivite
+from .utils import conversion_enum
 
 
 class Activite(BaseModel):
@@ -42,13 +43,11 @@ class Activite(BaseModel):
         - Autres contraintes possibles : ge (greater or equal), le, lt, max_length, regex.
     """
 
-    class ConfigDict:
-        """Modification du comportement par défaut de Pydantic"""
+    model_config = ConfigDict(**{"use_enum_values": True, "validate_assignment": True})
 
-        use_enum_values = True  # Utilisation de la valeur de l'énumération ("endurance" plutôt que TypeActivité.ENDURANCE)
-        validate_assignment = (
-            True  # Relance une validation lors de la modification d'un attribut
-        )
+    @field_validator("type", mode="before")
+    def _conversion_type(cls, type):
+        return conversion_enum(type, TypeActivite)
 
     def __str__(self):
         return (

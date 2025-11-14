@@ -11,22 +11,10 @@ optimisation_nutrition/
 
 """
 
-from .modeles import (
-    Activite,
-    Nutrition,
-    ObjectifAlimentaire,
-    Personne,
-    RegimeAlimentaire,
-    Sexe,
-    TypeActivite,
-)
+from .modeles import Activite, Nutrition, Personne
 
 __all__ = [
     "Activite",
     "Personne",
     "Nutrition",
-    "Sexe",
-    "RegimeAlimentaire",
-    "ObjectifAlimentaire",
-    "TypeActivite",
 ]

@@ -1,0 +1,388 @@
+{
+    "sédentaire": {
+        "macro": {
+            "glucides": {
+                "absolu": {
+                    "min": 3,
+                    "max": 5
+                },
+                "pourcentage": {
+                    "min": 40,
+                    "max": 55
+                }
+            },
+            "proteines": {
+                "absolu": {
+                    "min": 0.8,
+                    "max": 1
+                },
+                "pourcentage": {
+                    "min": 15,
+                    "max": 20
+                }
+            },
+            "lipides": {
+                "absolu": {
+                    "min": 1,
+                    "max": 1.3
+                },
+                "pourcentage": {
+                    "min": 35,
+                    "max": 40
+                },
+                "composition": {
+                    "max_sat": 12,
+                    "polyinsat": 20,
+                    "ALA": 1,
+                    "EPA_DHA": 0.25
+                }
+            },
+            "fibres": {
+                "absolu": {
+                    "min": 25,
+                    "max": 30
+                },
+                "composition": {
+                    "soluble": 50,
+                    "insoluble": 50
+                }
+            }
+        },
+        "micro": {}
+    },
+    "autre": {
+        "macro": {
+            "glucides": {
+                "absolu": {
+                    "min": 3,
+                    "max": 5
+                },
+                "pourcentage": {
+                    "min": 40,
+                    "max": 55
+                }
+            },
+            "proteines": {
+                "absolu": {
+                    "min": 1,
+                    "max": 1.2
+                },
+                "pourcentage": {
+                    "min": 15,
+                    "max": 20
+                }
+            },
+            "lipides": {
+                "absolu": {
+                    "min": 1,
+                    "max": 1.3
+                },
+                "pourcentage": {
+                    "min": 30,
+                    "max": 40
+                },
+                "composition": {
+                    "max_sat": 12,
+                    "polyinsat": 20,
+                    "ALA": 1,
+                    "EPA_DHA": 0.5
+                }
+            },
+            "fibres": {
+                "absolu": {
+                    "min": 25,
+                    "max": 30
+                },
+                "composition": {
+                    "soluble": 50,
+                    "insoluble": 50
+                }
+            }
+        },
+        "micro": {}
+    },
+    "endurance": {
+        "macro": {
+            "glucides": {
+                "absolu": {
+                    "min": 5,
+                    "max": 7
+                },
+                "pourcentage": {
+                    "min": 40,
+                    "max": 60
+                },
+                "intensite": {
+                    "faible": 0,
+                    "moyenne": 1,
+                    "forte": 3,
+                    "extreme": 4
+                }
+            },
+            "proteines": {
+                "absolu": {
+                    "min": 1.2,
+                    "max": 1.6
+                },
+                "pourcentage": {
+                    "min": 15,
+                    "max": 20
+                },
+                "intensite": {
+                    "moyenne": 0.2,
+                    "forte": 0.4
+                },
+                "poids": {
+                    "maintien": 0,
+                    "prise de masse": 0.6,
+                    "perte de poids": 0.4
+                }
+            },
+            "lipides": {
+                "absolu": {
+                    "min": 1,
+                    "max": 1.3
+                },
+                "pourcentage": {
+                    "min": 25,
+                    "max": 30,
+                    "perte de poids": 20
+                },
+                "composition": {
+                    "max_sat": 12,
+                    "polyinsat": 20,
+                    "ALA": 1,
+                    "EPA_DHA": 2
+                }
+            },
+            "fibres": {
+                "absolu": {
+                    "min": 25,
+                    "max": 30
+                },
+                "composition": {
+                    "soluble": 50,
+                    "insoluble": 50
+                }
+            }
+        },
+        "micro": {}
+    },
+    "force": {
+        "macro": {
+            "glucides": {
+                "absolu": {
+                    "min": 4,
+                    "max": 6
+                },
+                "pourcentage": {
+                    "min": 40,
+                    "max": 55
+                }
+            },
+            "proteines": {
+                "absolu": {
+                    "min": 1.4,
+                    "max": 1.6
+                },
+                "pourcentage": {
+                    "min": 15,
+                    "max": 20
+                },
+                "intensite": {
+                    "moyenne": 0.3,
+                    "forte": 0.6
+                },
+                "poids": {
+                    "maintien": 0,
+                    "prise de masse": 0.6,
+                    "perte de poids": 0.4
+                }
+            },
+            "lipides": {
+                "absolu": {
+                    "min": 1,
+                    "max": 1.3
+                },
+                "pourcentage": {
+                    "min": 25,
+                    "max": 35,
+                    "perte de poids": 20
+                },
+                "composition": {
+                    "max_sat": 12,
+                    "polyinsat": 20,
+                    "ALA": 1,
+                    "EPA_DHA": 2
+                }
+            },
+            "fibres": {
+                "absolu": {
+                    "min": 25,
+                    "max": 30
+                },
+                "composition": {
+                    "soluble": 50,
+                    "insoluble": 50
+                }
+            }
+        },
+        "micro": {}
+    },
+    "combat": {
+        "macro": {
+            "glucides": {
+                "absolu": {
+                    "min": 5,
+                    "max": 8
+                },
+                "pourcentage": {
+                    "min": 40,
+                    "max": 55
+                }
+            },
+            "proteines": {
+                "absolu": {
+                    "min": 1.6,
+                    "max": 2.2
+                },
+                "pourcentage": {
+                    "min": 15,
+                    "max": 20
+                }
+            },
+            "lipides": {
+                "absolu": {
+                    "min": 1,
+                    "max": 1.3
+                },
+                "pourcentage": {
+                    "min": 25,
+                    "max": 35,
+                    "perte de poids": 20
+                },
+                "composition": {
+                    "max_sat": 12,
+                    "polyinsat": 20,
+                    "ALA": 1,
+                    "EPA_DHA": 2
+                }
+            },
+            "fibres": {
+                "absolu": {
+                    "min": 25,
+                    "max": 30
+                },
+                "composition": {
+                    "soluble": 50,
+                    "insoluble": 50
+                }
+            }
+        },
+        "micro": {}
+    },
+    "intermittent": {
+        "macro": {
+            "glucides": {
+                "absolu": {
+                    "min": 5,
+                    "max": 8
+                },
+                "pourcentage": {
+                    "min": 40,
+                    "max": 55
+                }
+            },
+            "proteines": {
+                "absolu": {
+                    "min": 1.4,
+                    "max": 2
+                },
+                "pourcentage": {
+                    "min": 15,
+                    "max": 20
+                }
+            },
+            "lipides": {
+                "absolu": {
+                    "min": 1,
+                    "max": 1.3
+                },
+                "pourcentage": {
+                    "min": 25,
+                    "max": 35,
+                    "perte de poids": 20
+                },
+                "composition": {
+                    "max_sat": 12,
+                    "polyinsat": 20,
+                    "ALA": 1,
+                    "EPA_DHA": 2
+                }
+            },
+            "fibre": {
+                "absolu": {
+                    "min": 25,
+                    "max": 30
+                },
+                "composition": {
+                    "soluble": 50,
+                    "insoluble": 50
+                }
+            }
+        },
+        "micro": {}
+    },
+    "agilité": {
+        "macro": {
+            "glucides": {
+                "absolu": {
+                    "min": 4,
+                    "max": 6
+                },
+                "pourcentage": {
+                    "min": 40,
+                    "max": 55
+                }
+            },
+            "proteines": {
+                "absolu": {
+                    "min": 1.2,
+                    "max": 1.6
+                },
+                "pourcentage": {
+                    "min": 15,
+                    "max": 20
+                }
+            },
+            "lipides": {
+                "absolu": {
+                    "min": 1,
+                    "max": 1.3
+                },
+                "pourcentage": {
+                    "min": 25,
+                    "max": 35,
+                    "perte de poids": 20
+                },
+                "composition": {
+                    "max_sat": 12,
+                    "polyinsat": 20,
+                    "ALA": 1,
+                    "EPA_DHA": 2
+                }
+            },
+            "fibres": {
+                "absolu": {
+                    "min": 25,
+                    "max": 30
+                },
+                "composition": {
+                    "soluble": 50,
+                    "insoluble": 50
+                }
+            }
+        },
+        "micro": {}
+    }
+}

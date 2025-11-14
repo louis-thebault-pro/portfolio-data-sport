@@ -8,23 +8,10 @@ modeles/
 ├── personne.py (Classe Personne)
 ├── activite.py (Classe Activité)
 ├── nutrition.py (Classe Nutrition)
-└── attributs.py   (enums utilisées dans les classes Personne et Activité)
+├── attributs.py   (enums utilisées dans les classes Personne et Activité)
+└── utils.py (fonctions utilitaires utilisées dans le projet)
 """
 
-from .attributs import (
-    ObjectifAlimentaire,
-    RegimeAlimentaire,
-    Sexe,
-    TypeActivite,
-)
 from .nutrition import Activite, Nutrition, Personne
 
-__all__ = [
-    "Activite",
-    "Personne",
-    "Nutrition",
-    "Sexe",
-    "RegimeAlimentaire",
-    "ObjectifAlimentaire",
-    "TypeActivite",
-]
+__all__ = ["Activite", "Personne", "Nutrition"]

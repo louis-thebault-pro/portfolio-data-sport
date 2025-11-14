@@ -2,13 +2,14 @@
 Module définissant la classe Activite.
 
 Attributs de la classe :
-- description : str --> description explicite de l'activité
-- type : TypeActivite --> type de l'activité (endurance, force, etc.)
-- duree : float --> durée hebdomadaire de l'activité en heures
-- met : float --> MET (Metabolic Equivalent Task) associé à l'activité
+    - description : str --> description explicite de l'activité
+    - type : TypeActivite --> type de l'activité (endurance, force, etc.)
+    - duree : float --> durée hebdomadaire de l'activité en heures
+    - met : float --> MET (Metabolic Equivalent Task) associé à l'activité
+    - _intensite : Intensite --> attribut privé défini en fonction du temps et du met de l'activité
 
 Méthodes :
-- calcul_depense() --> calcule la dépense énergétique hebdomadaire sans prendre en compte le poids
+    - calcul_depense() --> calcule la dépense énergétique hebdomadaire sans prendre en compte le poids
 
 """
 
@@ -48,9 +49,9 @@ class Activite(BaseModel):
         """Méthode appelée automatiquement pour fixer l'attribut intensité"""
         depense = self.calcul_depense()
         if self.type == "endurance" or self.type == "force":
-            if depense >= 10.0:
+            if depense >= 12:
                 self._intensite = Intensite.FORTE
-            elif depense >= 5.0:
+            elif depense >= 6:
                 self._intensite = Intensite.MOYENNE
             else:
                 self._intensite = Intensite.FAIBLE

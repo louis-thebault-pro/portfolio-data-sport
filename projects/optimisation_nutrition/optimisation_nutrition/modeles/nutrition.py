@@ -1,35 +1,27 @@
 """
-Module définissant la classe PlanNutrition.
+Module définissant la classe Nutrition
 
 Attributs de la classe :
-- personne --> type Personne
-- activités hebdomadaires --> liste d'activités, chacunes du type Activité
+    - personne --> type Personne
+    - activités hebdomadaires --> liste d'activités, chacunes du type Activité
 
 Méthodes de la classe :
-- __init__() --> initialisation de la classe
-- calcul_depense() --> calcul de la dépense énergétique hebdomadaire
+    - metabolisme_base()
+    - ajouter_activite()
+    - besoins_hebdomadaires()
+    - besoins_quotidiens()
+    - types_activites()
+    - recommandations_personne()
 
 """
 
+from numpy import mean
 from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
-
-from optimisation_nutrition.donnees import recommandations
 
 from ..donnees import lire_json
 from .activite import Activite
 from .personne import Personne
-from .utils import fibres, glucides, lipides, proteines
-
-
-def max_dico(dico: dict):
-    """Méthode utile pour les différentes méthodes de la classe Nutrition"""
-    valeur_max = 0
-    cle_max = ""
-    for cle in dico:
-        if dico[cle] >= valeur_max:
-            valeur_max = dico[cle]
-            cle_max = cle
-    return cle_max
+from .utils import fibres, glucides, lipides, max_dico, proteines
 
 
 class Nutrition(BaseModel):
@@ -48,15 +40,18 @@ class Nutrition(BaseModel):
 
     model_config = ConfigDict(**{"use_enum_values": True, "validate_assignment": True})
 
-    def metabolisme_base(self):
-        return self.personne.metabolisme_base()
+    def __str__(self):
+        return f"{self.personne.prenom} {self.personne.nom}\n Métabolisme de base au quotidien : {self.personne.metabolisme_base()} kcal\n Besoins globaux quotidien : {self.besoins_quotidiens()} kcal"
+
+    def besoins_quotidiens_hors_sport(self):
+        return self.personne.besoins_quotidiens()
 
     def ajouter_activite(self, activite: Activite):
         self.activites.append(activite)
 
     def besoins_hebdomadaires(self):
         if self._besoin_hebdo == 0:
-            depense = self.metabolisme_base() * 7
+            depense = self.besoins_quotidiens_hors_sport() * 7
             if self.activites == []:
                 return depense
             else:
@@ -75,11 +70,8 @@ class Nutrition(BaseModel):
             else self.besoins_hebdomadaires() / 7
         )
 
-    def __str__(self):
-        return f"{self.personne.prenom} {self.personne.nom}\n Métabolisme de base au quotidien : {self.personne.metabolisme_base()} kcal\n Besoins globaux quotidien : {self.besoins_quotidiens()} kcal"
-
     def types_activites(self):
-        types, intensite = {}, {}
+        types, poids_types, intensite = {}, {}, {}
         if self.activites != []:
             for activite in self.activites:
                 type = activite.type
@@ -102,49 +94,116 @@ class Nutrition(BaseModel):
                     )
             for cle in intensite:
                 int = intensite[cle] / types[cle]
-                print(int)
                 intensite[cle] = (
                     "forte" if int >= 2.5 else ("moyenne" if int >= 1.5 else "faible")
                 )
 
-            return types, intensite
+            total = sum(types.values())
+            poids_types = (
+                {k: 0 for k in types}
+                if total == 0
+                else {cle: valeur / total for cle, valeur in types.items()}
+            )
+            return types, poids_types, intensite
         else:
             return None, None
 
     def recommandations_personne(self):
-        types, intensite = self.types_activites()
+
+        types, poids_types, intensite = self.types_activites()
         objectif = self.personne.objectif
-        if types:
-            macro = {}
-            type_principal = max_dico(types)
-            print(f"Type principal : {type_principal}")
-            macro["glucides"] = (
-                glucides(
-                    reco=self._recommandations,
-                    type="endurance",
-                    intensite=intensite["endurance"],
-                )
-                if "endurance" in types
-                else glucides(reco=self._recommandations, type=type_principal)
-            )
-            macro["proteines"] = (
-                proteines(
-                    reco=self._recommandations,
-                    type="force",
-                    intensite=intensite["force"],
-                )
-                if "force" in types
-                else (
-                    proteines(reco=self._recommandations, type="combat")
-                    if "combat" in types
-                    else proteines(reco=self._recommandations, type=type_principal)
-                )
-            )
-            macro["lipides"] = lipides(
-                reco=self._recommandations, type=type_principal, objectif=objectif
-            )
-            macro["fibres"] = fibres(reco=self._recommandations, type=type_principal)
-            reco = {}
-            reco["macro"] = macro
-            return reco
-        return None
+
+        if not types:
+            return None
+
+        macro = {}
+        type_principal = max_dico(types)
+
+        macro["glucides"] = glucides(
+            reco=self._recommandations,
+            poids_types=poids_types,
+            intensite=intensite,
+        )
+        macro["proteines"] = proteines(
+            reco=self._recommandations,
+            poids_types=poids_types,
+            intensite=intensite,
+            objectif=objectif,
+        )
+        macro["lipides"] = lipides(
+            reco=self._recommandations, type=type_principal, objectif=objectif
+        )
+        macro["fibres"] = fibres(reco=self._recommandations, type=type_principal)
+        reco = {}
+        reco["macro"] = macro
+        return reco
+
+    def plan_nutrition(self):
+        reco = self.recommandations_personne()
+        poids = self.personne.poids
+        besoins_quot = self.besoins_quotidiens()
+
+        print("Besoins quotidiens (kcal) :", besoins_quot)
+
+        if not reco:
+            return None
+
+        glu_abs = [
+            poids * reco["macro"]["glucides"]["absolu"]["min"],
+            poids * reco["macro"]["glucides"]["absolu"]["max"],
+        ]
+        prot_abs = [
+            poids * reco["macro"]["proteines"]["absolu"]["min"],
+            poids * reco["macro"]["proteines"]["absolu"]["max"],
+        ]
+        lip_abs = [
+            poids * reco["macro"]["lipides"]["absolu"]["min"],
+            poids * reco["macro"]["lipides"]["absolu"]["max"],
+        ]
+        fib_abs = reco["macro"]["fibres"]["absolu"]["max"]
+
+        glu_pourc_reel = [
+            int(100 * glu_abs[0] * 4 / besoins_quot),
+            int(100 * glu_abs[1] * 4 / besoins_quot),
+        ]
+        prot_pourc_reel = [
+            int(100 * prot_abs[0] * 4 / besoins_quot),
+            int(100 * prot_abs[1] * 4 / besoins_quot),
+        ]
+        lip_pourc_reel = [
+            int(100 * lip_abs[0] * 9 / besoins_quot),
+            int(100 * lip_abs[1] * 9 / besoins_quot),
+        ]
+
+        glu_pourc_reco = [
+            reco["macro"]["glucides"]["pourcentage"]["min"],
+            reco["macro"]["glucides"]["pourcentage"]["max"],
+        ]
+        prot_pourc_reco = [
+            reco["macro"]["proteines"]["pourcentage"]["min"],
+            reco["macro"]["proteines"]["pourcentage"]["max"],
+        ]
+        lip_pourc_reco = [
+            reco["macro"]["lipides"]["pourcentage"]["min"],
+            reco["macro"]["lipides"]["pourcentage"]["max"],
+        ]
+
+        besoins = {
+            "glucides": {
+                "absolu": float(mean(glu_abs)),
+                "pourcentage_reel": int(mean(glu_pourc_reel)),
+                "pourcentage_recommande": int(mean(glu_pourc_reco)),
+            },
+            "proteines": {
+                "absolu": float(mean(prot_abs)),
+                "pourcentage_reel": int(mean(prot_pourc_reel)),
+                "pourcentage_recommande": int(mean(prot_pourc_reco)),
+            },
+            "lipides": {
+                "absolu": float(mean(lip_abs)),
+                "pourcentage_reel": int(mean(lip_pourc_reel)),
+                "pourcentage_recommande": int(mean(lip_pourc_reco)),
+            },
+            "fibres": {"absolu": fib_abs},
+        }
+        return besoins

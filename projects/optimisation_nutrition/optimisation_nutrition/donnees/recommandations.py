@@ -47,11 +47,3 @@ def get_fourchette(profil: dict, nutriment: str, type: str = "absolu"):
             valeurs = nutriments[nutriment][type]
             return (valeurs["min"], valeurs["max"])
     return None
-
-
-# c = "optimisation_nutrition/donnees/recommandations.JSON"
-# recommandations = lire_json(c)
-# profil = get_profil("sedentaire", recommandations)
-# cas_part = get_cas_particulier(profil)
-# fourchette_glu = get_fourchette(profil, "glucide", "pourcentage")
-# print(fourchette_glu)

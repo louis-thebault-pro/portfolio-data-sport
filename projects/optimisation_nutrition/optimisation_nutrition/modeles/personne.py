@@ -2,12 +2,12 @@
 Module définissant la classe Personne.
 
 Les attributs de la classe sont définis par :
-- l'ensemble des données physiologiques (nom, age, sexe, poids, taille, génétique, température corporelle)
-- le régime alimentaire de la personne
-- l'objectif alimentaire de la personne
+    - les données physiologiques (prenom, nom, age, sexe, poids, taille)
+    - le régime alimentaire de la personne
+    - l'objectif alimentaire de la personne
 
 Les méthodes de la classe sont :
-- get(attribut) prenant en entrée le nom de l'attribut et en sortie la valeur de celui-ci
+    - metabolisme_base()
 
 """
 
@@ -58,11 +58,11 @@ class Personne(BaseModel):
         default=ObjectifAlimentaire.MAINTIEN,
         description="Objectif alimentaire de la personne, défini par la classe ObjectifAlimentaire (Par défaut : MAINTIEN)",
     )
-    temperature: float = Field(
-        default=36.6,
-        description="Température corporelle de la personne (>22 et <50) en °C (Par défaut : 36,6°C)",
-        gt=22,
-        lt=50,
+    nap: float = Field(
+        default=1.4,
+        description="NAP - Indice décrivant l'activité de la personne hors sport",
+        gt=0,
+        lt=2.5,
     )
     _mb: int = PrivateAttr(default=0)
 
@@ -112,3 +112,9 @@ class Personne(BaseModel):
                 * (self.age ** (-0.13))
             )
         return self._mb
+
+    def besoins_quotidiens(self):
+        """
+        Calcule la dépense énergétique quotidienne, hors activités sportives.
+        """
+        return self.metabolisme_base() * self.nap

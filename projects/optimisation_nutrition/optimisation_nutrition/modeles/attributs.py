@@ -2,11 +2,11 @@
 Définition de plusieurs attributs utilisés dans les classes Activité et Personne.
 
 Attributs définis :
-- Sexe
-- Génétique
-- Régime alimentaire
-- Objectif alimentaire
-- Type d'activité
+    - Sexe
+    - Régime alimentaire
+    - Objectif alimentaire
+    - Type d'activité
+    - Intensité
 
 """
 

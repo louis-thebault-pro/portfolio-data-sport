@@ -16,6 +16,8 @@ Fonctions utiles à la construction des recommandations nutritives dans la class
 
 from enum import Enum
 
+# Fonctions pour la normalisation des Enums
+
 
 def normaliser_str(entree):
     """Normalise l'élément entré en une chaîne de caractère, en minuscule, ou None si l'entrée est None"""
@@ -52,43 +54,160 @@ def valeurs_enum(enum: Enum):
     return [e.value for e in enum]
 
 
-def glucides(reco: dict, type: str, intensite: str = None):
-    glu = {}
-    print(f"glucides : {type}")
-    glu["pourcentage"] = reco[type]["macro"]["glucides"]["pourcentage"]
-    absolu = reco[type]["macro"]["glucides"]["absolu"]
+# Fonctions pour la classe Nutrition
+
+
+def max_dico(dico: dict):
+    """Fonction permettant de trouver la valeur maximale dans un dict"""
+    valeur_max = 0
+    cle_max = ""
+    for cle in dico:
+        if isinstance(dico[cle], int) or isinstance(dico[cle], float):
+            if dico[cle] >= valeur_max:
+                valeur_max = dico[cle]
+                cle_max = cle
+    return cle_max
+
+
+def ponderation_macro(reco: dict, poids_types: dict, macro: str):
+    reco_abs = {"min": 0, "max": 0}
+    for type, poids in poids_types.items():
+        if type in reco:
+            valeurs = reco[type]["macro"][macro]["absolu"]
+            reco_abs["min"] += valeurs["min"] * poids
+            reco_abs["max"] += valeurs["max"] * poids
+
+    return reco_abs
+
+
+def ponderation_macro_par_type(
+    reco: dict,
+    poids_types: dict,
+    relativite: str,
+    macro_par_type,
+    intensite: dict,
+    objectif: str = None,
+):
+    """
+    Pondère min/max sur tous les types détectés selon leurs poids.
+    macro_par_type : fonction glucides_par_type ou proteines_par_type
+    """
+    absolu = {"min": 0, "max": 0}
+
+    for type, poids in poids_types.items():
+
+        valeurs = macro_par_type(
+            reco=reco,
+            type=type,
+            relativite=relativite,
+            intensite=(intensite[type] if type in intensite else None),
+            objectif=objectif,
+        )
+
+        absolu["min"] += valeurs["min"] * poids
+        absolu["max"] += valeurs["max"] * poids
+
+    absolu["min"] = (
+        round(absolu["min"], 1) if relativite == "absolu" else int(absolu["min"])
+    )
+    absolu["max"] = (
+        round(absolu["max"], 1) if relativite == "absolu" else int(absolu["max"])
+    )
+    return absolu
+
+
+def glucides_par_type(
+    reco: dict, type: str, relativite: str, intensite: str = None, objectif: str = None
+):
+    """
+    Renvoie uniquement les valeurs absolues min/max ajustées par intensité
+    pour un type donné (endurance / force / combat / autre)
+    """
+    absolu = reco[type]["macro"]["glucides"][relativite].copy()
+
     if intensite:
-        niveau_int = reco[type]["macro"]["glucides"]["intensite"][intensite]
-        absolu["min"] += niveau_int
-        absolu["max"] += niveau_int
-    glu["absolu"] = absolu
+        if "intensite" in reco[type]["macro"]["glucides"]:
+            niveau_int = reco[type]["macro"]["glucides"]["intensite"][intensite]
+            absolu["min"] += niveau_int
+            absolu["max"] += niveau_int
+
+    return absolu
+
+
+def glucides(reco: dict, poids_types: dict, intensite: dict):
+    glu = {}
+    glu["pourcentage"] = ponderation_macro_par_type(
+        poids_types=poids_types,
+        reco=reco,
+        relativite="pourcentage",
+        intensite=intensite,
+        macro_par_type=glucides_par_type,
+    )
+    glu["absolu"] = ponderation_macro_par_type(
+        poids_types=poids_types,
+        reco=reco,
+        relativite="absolu",
+        intensite=intensite,
+        macro_par_type=glucides_par_type,
+    )
     return glu
 
 
-def proteines(reco: dict, type: str, intensite: str = None, objectif: str = None):
-    prot = {}
-    print(f"proteines : {type}")
-    prot["pourcentage"] = reco[type]["macro"]["proteines"]["pourcentage"]
-    absolu = reco[type]["macro"]["proteines"]["absolu"]
+def proteines_par_type(
+    reco: dict, type: str, relativite: str, intensite: str = None, objectif: str = None
+):
+    """
+    Renvoie les valeurs absolues min/max ajustées pour intensité + objectif
+    pour un type donné
+    """
+    absolu = reco[type]["macro"]["proteines"][relativite].copy()
+
     if objectif:
-        if objectif == "maintien" and intensite:
-            niveau_int = reco[type]["macro"]["proteines"]["intensite"][intensite]
-            absolu["min"] += niveau_int
-            absolu["max"] += niveau_int
+        if objectif == "maintien du poids" and intensite:
+            if "intensite" in reco[type]["macro"]["proteines"]:
+                niveau_int = reco[type]["macro"]["proteines"]["intensite"][intensite]
+                absolu["min"] += niveau_int
+                absolu["max"] += niveau_int
         else:
-            niveau_obj = reco[type]["macro"]["proteines"]["poids"][objectif]
-            absolu["min"] += niveau_obj
-            absolu["max"] += niveau_obj
-    prot["absolu"] = absolu
+            if "poids" in reco[type]["macro"]["proteines"]:
+                niveau_obj = reco[type]["macro"]["proteines"]["poids"][objectif]
+                absolu["min"] += niveau_obj
+                absolu["max"] += niveau_obj
+
+    return absolu
+
+
+def proteines(
+    reco: dict,
+    poids_types: dict,
+    intensite: dict,
+    objectif: str = None,
+):
+    prot = {}
+    prot["pourcentage"] = ponderation_macro_par_type(
+        poids_types=poids_types,
+        reco=reco,
+        relativite="pourcentage",
+        intensite=intensite,
+        objectif=objectif,
+        macro_par_type=proteines_par_type,
+    )
+    prot["absolu"] = ponderation_macro_par_type(
+        poids_types=poids_types,
+        reco=reco,
+        relativite="absolu",
+        intensite=intensite,
+        objectif=objectif,
+        macro_par_type=proteines_par_type,
+    )
     return prot
 
 
 def lipides(reco: dict, type: str, objectif: str = None):
     lip = {}
-    print(f"lipides : {type}")
-    lip["absolu"] = reco[type]["macro"]["lipides"]["absolu"]
-    lip["composition"] = reco[type]["macro"]["lipides"]["composition"]
-    pourcentage = reco[type]["macro"]["lipides"]["pourcentage"]
+    lip["absolu"] = reco[type]["macro"]["lipides"]["absolu"].copy()
+    lip["composition"] = reco[type]["macro"]["lipides"]["composition"].copy()
+    pourcentage = reco[type]["macro"]["lipides"]["pourcentage"].copy()
     if objectif:
         if objectif == "perte de poids":
             pourcentage["min"] -= 10
@@ -98,5 +217,4 @@ def lipides(reco: dict, type: str, objectif: str = None):
 
 
 def fibres(reco: dict, type: str):
-    print(f"fibres : {type}")
-    return reco[type]["macro"]["fibres"]
+    return reco[type]["macro"]["fibres"].copy()

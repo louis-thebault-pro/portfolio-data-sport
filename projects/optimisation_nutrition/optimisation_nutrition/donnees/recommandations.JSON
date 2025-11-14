@@ -133,7 +133,7 @@
                     "forte": 0.4
                 },
                 "poids": {
-                    "maintien": 0,
+                    "maintien du poids": 0,
                     "prise de masse": 0.6,
                     "perte de poids": 0.4
                 }
@@ -194,7 +194,7 @@
                     "forte": 0.6
                 },
                 "poids": {
-                    "maintien": 0,
+                    "maintien du poids": 0,
                     "prise de masse": 0.6,
                     "perte de poids": 0.4
                 }

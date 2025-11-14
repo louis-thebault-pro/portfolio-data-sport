@@ -13,9 +13,12 @@ Méthodes de la classe :
 
 from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 
+from optimisation_nutrition.donnees import recommandations
+
 from ..donnees import lire_json
 from .activite import Activite
 from .personne import Personne
+from .utils import fibres, glucides, lipides, proteines
 
 
 def max_dico(dico: dict):
@@ -76,35 +79,72 @@ class Nutrition(BaseModel):
         return f"{self.personne.prenom} {self.personne.nom}\n Métabolisme de base au quotidien : {self.personne.metabolisme_base()} kcal\n Besoins globaux quotidien : {self.besoins_quotidiens()} kcal"
 
     def types_activites(self):
-        types = {}
+        types, intensite = {}, {}
         if self.activites != []:
             for activite in self.activites:
                 type = activite.type
-                if hasattr(type, "value"):
-                    cle = str(type.value).strip().lower()
-                else:
-                    cle = str(type).strip().lower()
-                types[cle] = types.get(cle, 0) + 1
-            return types
+                cle = (
+                    str(type.value).strip().lower()
+                    if hasattr(type, "value")
+                    else str(type).strip().lower()
+                )
+                types[cle] = types.get(cle, 0) + activite.calcul_depense()
+
+                if cle == "endurance" or cle == "force":
+                    intensite[cle] = intensite.get(cle, 0) + (
+                        activite.calcul_depense()
+                        if activite.intensite == "faible"
+                        else (
+                            2 * activite.calcul_depense()
+                            if activite.intensite == "moyenne"
+                            else 3 * activite.calcul_depense()
+                        )
+                    )
+            for cle in intensite:
+                int = intensite[cle] / types[cle]
+                print(int)
+                intensite[cle] = (
+                    "forte" if int >= 2.5 else ("moyenne" if int >= 1.5 else "faible")
+                )
+
+            return types, intensite
         else:
-            return None
+            return None, None
 
     def recommandations_personne(self):
-        types = self.types_activites()
+        types, intensite = self.types_activites()
+        objectif = self.personne.objectif
         if types:
-            profil = max_dico(types)
-            reco = self._recommandations.get(profil)
-            if profil != "endurance" and "endurance" in types:
-                reco["macro"]["glucides"] = self._recommandations["endurance"]["macro"][
-                    "glucides"
-                ]
-            if profil != "force" and "force" in types:
-                reco["macro"]["proteines"] = self._recommandations["force"]["macro"][
-                    "proteines"
-                ]
-            elif profil != "combat" and "combat" in types:
-                reco["macro"]["proteines"] = self._recommandations["combat"]["macro"][
-                    "proteines"
-                ]
+            macro = {}
+            type_principal = max_dico(types)
+            print(f"Type principal : {type_principal}")
+            macro["glucides"] = (
+                glucides(
+                    reco=self._recommandations,
+                    type="endurance",
+                    intensite=intensite["endurance"],
+                )
+                if "endurance" in types
+                else glucides(reco=self._recommandations, type=type_principal)
+            )
+            macro["proteines"] = (
+                proteines(
+                    reco=self._recommandations,
+                    type="force",
+                    intensite=intensite["force"],
+                )
+                if "force" in types
+                else (
+                    proteines(reco=self._recommandations, type="combat")
+                    if "combat" in types
+                    else proteines(reco=self._recommandations, type=type_principal)
+                )
+            )
+            macro["lipides"] = lipides(
+                reco=self._recommandations, type=type_principal, objectif=objectif
+            )
+            macro["fibres"] = fibres(reco=self._recommandations, type=type_principal)
+            reco = {}
+            reco["macro"] = macro
             return reco
         return None

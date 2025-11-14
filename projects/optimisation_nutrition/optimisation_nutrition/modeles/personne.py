@@ -69,8 +69,16 @@ class Personne(BaseModel):
     model_config = ConfigDict(**{"use_enum_values": True, "validate_assignment": True})
 
     @field_validator("sexe", mode="before")
-    def _parse_sexe(cls, v):
+    def _norm_sexe(cls, v):
         return conversion_enum(v, Sexe)
+
+    @field_validator("regime", mode="before")
+    def _norm_regime(cls, v):
+        return conversion_enum(v, RegimeAlimentaire)
+
+    @field_validator("objectif", mode="before")
+    def _norm_objectif(cls, v):
+        return conversion_enum(v, ObjectifAlimentaire)
 
     def __str__(self):
         # Affiche la valeur lisible du sexe si disponible

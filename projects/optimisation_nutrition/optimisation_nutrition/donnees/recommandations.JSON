@@ -114,9 +114,8 @@
                 },
                 "intensite": {
                     "faible": 0,
-                    "moyenne": 1,
-                    "forte": 3,
-                    "extreme": 4
+                    "moyenne": 2,
+                    "forte": 4
                 }
             },
             "proteines": {
@@ -129,6 +128,7 @@
                     "max": 20
                 },
                 "intensite": {
+                    "faible": 0,
                     "moyenne": 0.2,
                     "forte": 0.4
                 },
@@ -145,8 +145,7 @@
                 },
                 "pourcentage": {
                     "min": 25,
-                    "max": 30,
-                    "perte de poids": 20
+                    "max": 30
                 },
                 "composition": {
                     "max_sat": 12,
@@ -190,6 +189,7 @@
                     "max": 20
                 },
                 "intensite": {
+                    "faible": 0,
                     "moyenne": 0.3,
                     "forte": 0.6
                 },
@@ -206,8 +206,7 @@
                 },
                 "pourcentage": {
                     "min": 25,
-                    "max": 35,
-                    "perte de poids": 20
+                    "max": 35
                 },
                 "composition": {
                     "max_sat": 12,
@@ -258,8 +257,7 @@
                 },
                 "pourcentage": {
                     "min": 25,
-                    "max": 35,
-                    "perte de poids": 20
+                    "max": 35
                 },
                 "composition": {
                     "max_sat": 12,
@@ -310,8 +308,7 @@
                 },
                 "pourcentage": {
                     "min": 25,
-                    "max": 35,
-                    "perte de poids": 20
+                    "max": 35
                 },
                 "composition": {
                     "max_sat": 12,
@@ -320,7 +317,7 @@
                     "EPA_DHA": 2
                 }
             },
-            "fibre": {
+            "fibres": {
                 "absolu": {
                     "min": 25,
                     "max": 30
@@ -362,8 +359,7 @@
                 },
                 "pourcentage": {
                     "min": 25,
-                    "max": 35,
-                    "perte de poids": 20
+                    "max": 35
                 },
                 "composition": {
                     "max_sat": 12,

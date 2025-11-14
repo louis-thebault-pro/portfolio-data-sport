@@ -40,3 +40,9 @@ class TypeActivite(StrEnum):
     COMBAT = "combat"
     AGILITE = "agilité"
     AUTRE = "autre"
+
+
+class Intensite(StrEnum):
+    FAIBLE = "faible"
+    MOYENNE = "moyenne"
+    FORTE = "forte"

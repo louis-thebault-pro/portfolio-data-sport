@@ -1,12 +1,17 @@
 """
-Module regroupant des fonctions permettant la normalisation des chaînes de caractères et l'analyse des énumérations dans le projet.
-Il regroupe des fonctions utilisées par les modèles Pydantic et l'interface utilisateur Streamlit.
-Grâce à ces fonctions, le projet accepte les entrées quelque soit la casse.
+Module regroupant des fonctions utiles aux différentes classes, modèles et interfaces utilisateur.
 
-Fonctions :
-- normaliser_str(entree)
-- conversion_enum(entree, enum)
-- valeurs_enum(enum)
+Fonctions permettant de normaliser les chaînes relatives aux différents attributs Enum :
+    - normaliser_str(entree)
+    - conversion_enum(entree, enum)
+    - valeurs_enum(enum)
+    Grâce à ces fonctions, le projet accepte les entrées quelque soit la casse.
+
+Fonctions utiles à la construction des recommandations nutritives dans la classe Nutrition :
+    - glucides(recommandations_de_base, type, intensite)
+    - proteines(recommandations_de_base, type, intensite, objectif)
+    - lipides(recommandations_de_base, type, objectif)
+    - fibres(recommandations_de_base, type)
 """
 
 from enum import Enum
@@ -45,3 +50,53 @@ def conversion_enum(entree, enum: Enum):
 def valeurs_enum(enum: Enum):
     """Retourne la liste des valeurs d'une classe Enum"""
     return [e.value for e in enum]
+
+
+def glucides(reco: dict, type: str, intensite: str = None):
+    glu = {}
+    print(f"glucides : {type}")
+    glu["pourcentage"] = reco[type]["macro"]["glucides"]["pourcentage"]
+    absolu = reco[type]["macro"]["glucides"]["absolu"]
+    if intensite:
+        niveau_int = reco[type]["macro"]["glucides"]["intensite"][intensite]
+        absolu["min"] += niveau_int
+        absolu["max"] += niveau_int
+    glu["absolu"] = absolu
+    return glu
+
+
+def proteines(reco: dict, type: str, intensite: str = None, objectif: str = None):
+    prot = {}
+    print(f"proteines : {type}")
+    prot["pourcentage"] = reco[type]["macro"]["proteines"]["pourcentage"]
+    absolu = reco[type]["macro"]["proteines"]["absolu"]
+    if objectif:
+        if objectif == "maintien" and intensite:
+            niveau_int = reco[type]["macro"]["proteines"]["intensite"][intensite]
+            absolu["min"] += niveau_int
+            absolu["max"] += niveau_int
+        else:
+            niveau_obj = reco[type]["macro"]["proteines"]["poids"][objectif]
+            absolu["min"] += niveau_obj
+            absolu["max"] += niveau_obj
+    prot["absolu"] = absolu
+    return prot
+
+
+def lipides(reco: dict, type: str, objectif: str = None):
+    lip = {}
+    print(f"lipides : {type}")
+    lip["absolu"] = reco[type]["macro"]["lipides"]["absolu"]
+    lip["composition"] = reco[type]["macro"]["lipides"]["composition"]
+    pourcentage = reco[type]["macro"]["lipides"]["pourcentage"]
+    if objectif:
+        if objectif == "perte de poids":
+            pourcentage["min"] -= 10
+            pourcentage["max"] -= 10
+    lip["pourcentage"] = pourcentage
+    return lip
+
+
+def fibres(reco: dict, type: str):
+    print(f"fibres : {type}")
+    return reco[type]["macro"]["fibres"]

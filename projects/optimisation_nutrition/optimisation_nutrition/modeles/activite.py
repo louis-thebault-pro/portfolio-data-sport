@@ -12,9 +12,9 @@ Méthodes :
 
 """
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, PrivateAttr, field_validator
 
-from .attributs import TypeActivite
+from .attributs import Intensite, TypeActivite
 from .utils import conversion_enum
 
 
@@ -36,12 +36,7 @@ class Activite(BaseModel):
         gt=0,
         description="Valeur MET de l'activité issue des tables de données (>0)",
     )
-    """
-    Propriétés de Field :
-        - ... = valeur obligatoire, pas de valeur par défaut
-        - gt = "greater than" : assure que la valeur est strictement supérieure à 0
-        - Autres contraintes possibles : ge (greater or equal), le, lt, max_length, regex.
-    """
+    _intensite: Intensite = PrivateAttr(default=None)
 
     model_config = ConfigDict(**{"use_enum_values": True, "validate_assignment": True})
 
@@ -49,10 +44,24 @@ class Activite(BaseModel):
     def _conversion_type(cls, type):
         return conversion_enum(type, TypeActivite)
 
+    def model_post_init(self, __context):
+        """Méthode appelée automatiquement pour fixer l'attribut intensité"""
+        depense = self.calcul_depense()
+        if self.type == "endurance" or self.type == "force":
+            if depense >= 10.0:
+                self._intensite = Intensite.FORTE
+            elif depense >= 5.0:
+                self._intensite = Intensite.MOYENNE
+            else:
+                self._intensite = Intensite.FAIBLE
+
+    @property
+    def intensite(self):
+        return self._intensite
+
     def __str__(self):
-        return (
-            f"{self.description} ({self.type}) - {self.duree/60:.1f}h - {self.met} METs"
-        )
+        intensite = f" - {self.intensite} intensité" if self.intensite else ""
+        return f"{self.description} ({self.type}) - {self.duree} min - {self.met} METs{intensite}"
 
     def calcul_depense(self) -> float:
         """

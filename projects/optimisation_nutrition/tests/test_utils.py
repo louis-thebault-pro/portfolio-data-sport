@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pytest
 
 from optimisation_nutrition.modeles.attributs import TypeActivite

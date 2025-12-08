@@ -1,8 +1,16 @@
+# -*- coding: utf-8 -*-
 import json
+
+import pandas as pd
+
+
+def lire_excel(chemin: str):
+    donnees = pd.read_excel(chemin)
+    return donnees
 
 
 def lire_json(chemin: str):
-    with open(chemin, "r") as f:
+    with open(chemin, encoding="utf-8") as f:
         datas = json.load(f)
         return datas
 

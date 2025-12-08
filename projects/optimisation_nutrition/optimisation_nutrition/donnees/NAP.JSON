@@ -1,0 +1,26 @@
+{
+    "sedentaire": {
+        "description": "Sédentaire *(travail assis toute la journée, déplacements très faibles)*",
+        "nap": 1.4
+    },
+    "legerement_actif": {
+        "description": "Légèrement actif *(travail assis mais courts déplacements assez réguliers, quelques tâches debout)*",
+        "nap": 1.55
+    },
+    "moderement_actif": {
+        "description": "Modérément actif *(travail debout, marche fréquente, activité physique modérée)*",
+        "nap": 1.7
+    },
+    "actif": {
+        "description": "Actif *(travail physique modéré, marche prolongée, journées généralement dynamiques)*",
+        "nap": 1.85
+    },
+    "tres_actif": {
+        "description": "Très actif *(travail physique pénible, port de charges, déplacements constants)*",
+        "nap": 2
+    },
+    "extremement_actif": {
+        "description": "Extrèmement actif *(travail physique très intense et/ou vie très active, mode de vie exigeant physiquement)*",
+        "nap": 2.2
+    }
+}

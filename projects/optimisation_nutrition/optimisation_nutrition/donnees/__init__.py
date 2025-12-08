@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Paquet regroupant les données et fonctions permettant d'accéder à celles-ci.
 
@@ -8,6 +9,18 @@ modeles/
 └── recommandations.py (Fonctions d'accès aux données du fichier json 'recommandations')
 """
 
-from .recommandations import get_cas_particulier, get_fourchette, get_profil, lire_json
+from .donnees import (
+    get_cas_particulier,
+    get_fourchette,
+    get_profil,
+    lire_excel,
+    lire_json,
+)
 
-__all__ = ["lire_json", "get_profil", "get_cas_particulier", "get_fourchette"]
+__all__ = [
+    "lire_json",
+    "get_profil",
+    "get_cas_particulier",
+    "get_fourchette",
+    "lire_excel",
+]

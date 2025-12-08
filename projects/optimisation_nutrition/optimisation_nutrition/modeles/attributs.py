@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Définition de plusieurs attributs utilisés dans les classes Activité et Personne.
 

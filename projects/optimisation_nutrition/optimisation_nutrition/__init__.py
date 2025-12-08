@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Backend du programme, ce paquet contient les modules métier.
 Ils permettent de modéliser différents objets utiles au programme comme une personne ou une activité.

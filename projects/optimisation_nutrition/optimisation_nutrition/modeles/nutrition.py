@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Module définissant la classe Nutrition
 
@@ -106,7 +107,7 @@ class Nutrition(BaseModel):
             )
             return types, poids_types, intensite
         else:
-            return None, None
+            return (None, None, None)
 
     def recommandations_personne(self):
 
@@ -114,7 +115,8 @@ class Nutrition(BaseModel):
         objectif = self.personne.objectif
 
         if not types:
-            return None
+            reco = self._recommandations
+            return reco["sédentaire"]
 
         macro = {}
         type_principal = max_dico(types)
@@ -142,11 +144,6 @@ class Nutrition(BaseModel):
         reco = self.recommandations_personne()
         poids = self.personne.poids
         besoins_quot = self.besoins_quotidiens()
-
-        print("Besoins quotidiens (kcal) :", besoins_quot)
-
-        if not reco:
-            return None
 
         glu_abs = [
             poids * reco["macro"]["glucides"]["absolu"]["min"],
@@ -190,17 +187,17 @@ class Nutrition(BaseModel):
 
         besoins = {
             "glucides": {
-                "absolu": float(mean(glu_abs)),
+                "absolu": int(mean(glu_abs)),
                 "pourcentage_reel": int(mean(glu_pourc_reel)),
                 "pourcentage_recommande": int(mean(glu_pourc_reco)),
             },
             "proteines": {
-                "absolu": float(mean(prot_abs)),
+                "absolu": int(mean(prot_abs)),
                 "pourcentage_reel": int(mean(prot_pourc_reel)),
                 "pourcentage_recommande": int(mean(prot_pourc_reco)),
             },
             "lipides": {
-                "absolu": float(mean(lip_abs)),
+                "absolu": int(mean(lip_abs)),
                 "pourcentage_reel": int(mean(lip_pourc_reel)),
                 "pourcentage_recommande": int(mean(lip_pourc_reco)),
             },

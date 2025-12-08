@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from optimisation_nutrition import Activite
 
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Module regroupant des fonctions utiles aux différentes classes, modèles et interfaces utilisateur.
 
@@ -67,17 +68,6 @@ def max_dico(dico: dict):
                 valeur_max = dico[cle]
                 cle_max = cle
     return cle_max
-
-
-def ponderation_macro(reco: dict, poids_types: dict, macro: str):
-    reco_abs = {"min": 0, "max": 0}
-    for type, poids in poids_types.items():
-        if type in reco:
-            valeurs = reco[type]["macro"][macro]["absolu"]
-            reco_abs["min"] += valeurs["min"] * poids
-            reco_abs["max"] += valeurs["max"] * poids
-
-    return reco_abs
 
 
 def ponderation_macro_par_type(

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Paquet regroupant les modules modélisant les différents objets utilisés par le programme
 (personne, activité et nutrition) et les enums partagées (attributs utiles pour les modèles).

@@ -2,6 +2,7 @@
 import streamlit as st
 
 from optimisation_nutrition import Activite
+from optimisation_nutrition.donnees import MET
 from optimisation_nutrition.modeles.attributs import TypeActivite
 from optimisation_nutrition.modeles.utils import valeurs_enum
 
@@ -87,21 +88,34 @@ def form_ajout_activite():
             col3, col4 = st.columns(2)
             col5, col6 = st.columns(2)
             with col1:
-                st.text_input(
-                    "Nom de l'activité", placeholder="Ex: Footing", key="description"
+                sport_options = list(MET.keys())
+                default_sport = st.session_state.get(
+                    "sport", sport_options[0] if sport_options else None
                 )
+                sport_index = (
+                    sport_options.index(default_sport)
+                    if default_sport in sport_options
+                    else 0
+                )
+                sport = st.selectbox(
+                    "Sport",
+                    options=sport_options,
+                    index=sport_index,
+                    key="sport",
+                )
+                st.write(sport)
             with col2:
-                type = st.selectbox(
-                    "Type d'activité",
-                    options=list(TYPES_ACTIVITES.keys()),
-                    key="type",
-                )
+                st.write(sport)
             with col3:
+                current_sport = sport or (sport_options[0] if sport_options else None)
+                description_options = (
+                    list(MET.get(current_sport, {}).keys()) if current_sport else []
+                )
                 st.selectbox(
-                    "Détail de l'activité",
-                    options=TYPES_ACTIVITES.get(type, []),
-                    index=0,
-                    key="detail_activite",
+                    "Description de l'activité",
+                    options=description_options,
+                    index=0 if description_options else None,
+                    key="description_activite",
                 )
             with col4:
                 st.number_input(

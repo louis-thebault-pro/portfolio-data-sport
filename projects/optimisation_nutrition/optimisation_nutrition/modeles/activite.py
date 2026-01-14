@@ -14,10 +14,9 @@ Méthodes :
 
 """
 
-from pandas import DataFrame
 from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 
-from ..donnees import lire_excel
+from ..donnees import MET
 from .attributs import Intensite, TypeActivite
 from .utils import conversion_enum
 
@@ -37,9 +36,6 @@ class Activite(BaseModel):
         default=0, gt=0, description="Durée de l'activité à renseigner en minutes (>0)"
     )
     _intensite: Intensite = PrivateAttr(default=None)
-    _table_met: DataFrame = PrivateAttr(
-        default=lire_excel("optimisation_nutrition/donnees/MET.xlsx")
-    )
     _type: TypeActivite = PrivateAttr(default=TypeActivite.ENDURANCE)
     _met: float = PrivateAttr(default=7)
 
@@ -49,24 +45,19 @@ class Activite(BaseModel):
         """Méthode appelée automatiquement pour fixer les attributs privés"""
 
         # Type et MET
-        ligne_activite = self._table_met[
-            self._table_met["Activité"] == self.description
-        ]
-        if ligne_activite.empty:
+        try:
+            activite = MET[self.sport][self.description]
+            try:
+                self._type = conversion_enum(activite["type"], TypeActivite)
+            except Exception:
+                self._type = TypeActivite.AUTRE
+            try:
+                self._met = float(activite["met"])
+            except Exception:
+                self._met = 0
+        except Exception:
             self._type = TypeActivite.AUTRE
             self._met = 0
-        else:
-            if "Type" in ligne_activite.columns:
-                type_cell = ligne_activite["Type"].iloc[0]
-                met_cell = ligne_activite["MET"].iloc[0]
-                try:
-                    self._type = conversion_enum(type_cell, TypeActivite)
-                except Exception:
-                    self._type = TypeActivite.AUTRE
-                try:
-                    self._met = float(met_cell)
-                except Exception:
-                    self._met = 0
 
         # Intensité
         depense = self.calcul_depense()
@@ -94,10 +85,6 @@ class Activite(BaseModel):
     @property
     def intensite(self):
         return self._intensite
-
-    @property
-    def table_met(self):
-        return self._table_met
 
     def __str__(self):
         intensite = f" - {self.intensite} intensité" if self.intensite else ""

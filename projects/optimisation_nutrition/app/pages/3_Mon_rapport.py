@@ -56,5 +56,5 @@ if st.session_state.personne:
 
 else:
     st.error(
-        "Tu vas un peu vite en besogne !\nAvant d'obtenir ton rapport, remplis et valide ton profil."
+        "Tu vas un peu vite en besogne !\nAvant d'obtenir ton rapport, rempli et valide ton profil."
     )

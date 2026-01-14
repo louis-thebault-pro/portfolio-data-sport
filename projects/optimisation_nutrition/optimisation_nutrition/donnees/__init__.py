@@ -10,10 +10,10 @@ modeles/
 """
 
 from .donnees import (
+    MET,
     get_cas_particulier,
     get_fourchette,
     get_profil,
-    lire_excel,
     lire_json,
 )
 
@@ -22,5 +22,5 @@ __all__ = [
     "get_profil",
     "get_cas_particulier",
     "get_fourchette",
-    "lire_excel",
+    "MET",
 ]

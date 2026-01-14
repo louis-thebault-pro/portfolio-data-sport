@@ -89,16 +89,20 @@ Les premiers résultats attendus :
 ## Structure du projet
 
 ```bash
-portfolio/
-└── projects/
-    └── performance_trail_data/
-        ├── data/                # Données brutes (non versionnées)
-        ├── data_sample/         # Données anonymisées ou d’exemple
-        ├── notebooks/           # Analyses exploratoires (Jupyter)
-        ├── scripts/             # Scripts Python (traitement, calculs)
-        ├── resultats/           # Graphiques, rapports, exports
-        ├── requirements.txt     # Dépendances Python
-        └── README.md            # Présent fichier
+performance_trail_data/
+  ├── data_sample/         # Données anonymisées ou d’exemple
+  ├── notebooks/           # Analyses exploratoires (Jupyter)
+      ├── 01_exploration.ipynb
+      └── 02_modelisation.ipynb
+  ├── scripts/             # Scripts Python (traitement, calculs)
+      ├── jumeau_numerique/
+          ├── activités.py
+          ├── athlete.py
+          └── __init__.py
+      └── main.py
+  ├── resultats/           # Graphiques, rapports, exports
+  ├── requirements.txt     # Dépendances Python
+  └── README.md            # Présent fichier
 ```
 
 ---
@@ -110,7 +114,6 @@ Ce portfolio est sous licence [MIT](LICENSE).
 
 ## Auteur
 
-Projet développé par Louis Thébault,
-dans le cadre d’un portfolio de projets en data science appliquée au sport.
+Projet développé par Louis Thébault dans le cadre d’un portfolio de projets informatiques appliqués au sport.
 
 🔗 Voir l’ensemble du portfolio : [Portfolio de Louis Thébault](../../README.md)

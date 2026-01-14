@@ -23,7 +23,6 @@ def main():
 
     nutrition = Nutrition(personne=personne)
     nutrition.ajouter_activite(Activite(duree=45))
-    nutrition.ajouter_activite(Activite(duree=45))
     nutrition.ajouter_activite(Activite(duree=90))
     nutrition.ajouter_activite(Activite(duree=50))
     nutrition.ajouter_activite(Activite(duree=60))
@@ -33,8 +32,6 @@ def main():
 
     print(nutrition.recommandations_personne())
     print(nutrition.plan_nutrition())
-
-    print(nutrition.activites[0].table_met)
 
 
 if __name__ == "__main__":

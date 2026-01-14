@@ -9,6 +9,23 @@ def lire_excel(chemin: str):
     return donnees
 
 
+def recuperer_met(df_met: pd.DataFrame) -> dict:
+    met_dict = {}
+    for _, row in df_met.iterrows():
+        sport = row["Sport"]
+        if sport not in met_dict:
+            met_dict[sport] = {
+                row["Activité"]: {"type": row["Type"], "met": row["MET"]}
+            }
+        else:
+            met_dict[sport][row["Activité"]] = {"type": row["Type"], "met": row["MET"]}
+    return met_dict
+
+
+cd_met = "optimisation_nutrition/donnees/MET.xlsx"
+MET = recuperer_met(lire_excel(cd_met))
+
+
 def lire_json(chemin: str):
     with open(chemin, encoding="utf-8") as f:
         datas = json.load(f)

@@ -36,6 +36,7 @@ Chaque projet dispose de son propre **README** décrivant :
 ## Outils & compétences
 - **Langage** : [Python 3.13.8](https://www.python.org/downloads/release/python-3138/)
 - **IDE** : [VS Code](https://code.visualstudio.com/)
+- **Logiciels** : Microsoft Excel
 - **Compétences** : analyse de données, modélisation, gestion de projets informatiques, communication des résultats
 
 ---

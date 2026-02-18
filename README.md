@@ -5,7 +5,7 @@
 ---
 
 ## À propos de moi
-Diplômé ingénieur des Mines de Nancy en 2022, spécialisé dans la **transition énergétique et le climat**, j'ai travaillé, entre 2023 et 2025, dans une collectivité francilienne en tant que **chef de projet en développement durable et innovation**. Depuis 2025, je suis à la recherche d'une nouvelle mission, dans un autre cadre de travail, plus stimulant et plus aligné avec mes compétences professionnelles.
+Diplômé ingénieur des Mines de Nancy en 2022, spécialisé dans la **transition énergétique**, j'ai travaillé, entre 2023 et 2025, dans une collectivité francilienne en tant que **chef de projet transition énergétique et innovation**. Depuis 2025, je suis à la recherche d'une nouvelle mission, dans un autre cadre de travail, plus stimulant et plus aligné avec mes compétences professionnelles.
 
 Par ailleurs, **passionné de sport**, je pratique régulièrement des sports d'endurance (course à pied, cyclisme) et de force (musculation). Très intéressé par la data et les outils permettant d'optimiser la performance sportive, mes projets sont majoritairement appliqués à cette thématique.
 
